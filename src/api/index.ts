@@ -1,1 +1,1 @@
-export const apiUrl = "http://localhost:3001"
+export const apiUrl = "https://8d396accf51850d08fa3b6b55e978278.serveo.net"
