@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import {
      Chart as ChartJS,
      CategoryScale,
@@ -29,8 +29,8 @@ ChartJS.register(
 );
 
 export const Grafico = ({ tipo, dadosLabels, dadosGrafico, labelSolo, titulo, alt, isHour }: iGraficoProps) => {
-     const chartRefBar = useRef<ChartJS<"bar"> | null>(null);
-     const chartRefLine = useRef<ChartJS<"line"> | null>(null);
+     const chartRefBar = React.useRef<ChartJS<"bar"> | null>(null);
+     const chartRefLine = React.useRef<ChartJS<"line"> | null>(null);
 
      const formataDataLabelTop = (dataLabel: string, tipoFormatacao: string) => {
           const data = new Date(dataLabel)
@@ -54,7 +54,7 @@ export const Grafico = ({ tipo, dadosLabels, dadosGrafico, labelSolo, titulo, al
           return tipoFormatacao === 'label' ? `${dia} ${mes}` : `${dia} ${mes}, ${ano}`
      }
 
-     useEffect(() => {
+     React.useEffect(() => {
           const chart = tipo === "bar" ? chartRefBar.current : chartRefLine.current;
           
           if (chart) {
@@ -66,7 +66,7 @@ export const Grafico = ({ tipo, dadosLabels, dadosGrafico, labelSolo, titulo, al
                chart.data.datasets[0].backgroundColor = gradient;
                chart.update();
           }
-     }, []);
+     }, [tipo]);
 
      const options = {
           responsive: true,
