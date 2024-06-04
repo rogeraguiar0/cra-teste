@@ -10,6 +10,7 @@ import {
      Tooltip,
      Legend,
      Filler,
+     TooltipItem,
 } from 'chart.js';
 import { Bar, Line } from 'react-chartjs-2';
 import { iGraficoProps } from "../../interfaces/intex";
@@ -28,7 +29,8 @@ ChartJS.register(
 );
 
 export const Grafico = ({ tipo, dadosLabels, dadosGrafico, labelSolo, titulo, alt, isHour }: iGraficoProps) => {
-     const chartRef = useRef(null);
+     const chartRefBar = useRef<ChartJS<"bar"> | null>(null);
+     const chartRefLine = useRef<ChartJS<"line"> | null>(null);
 
      const formataDataLabelTop = (dataLabel: string, tipoFormatacao: string) => {
           const data = new Date(dataLabel)
@@ -53,7 +55,8 @@ export const Grafico = ({ tipo, dadosLabels, dadosGrafico, labelSolo, titulo, al
      }
 
      useEffect(() => {
-          const chart = chartRef.current;
+          const chart = tipo === "bar" ? chartRefBar.current : chartRefLine.current;
+          
           if (chart) {
                const ctx = chart.ctx;
                const gradient = ctx.createLinearGradient(0, 0, 0, 400);
@@ -89,12 +92,12 @@ export const Grafico = ({ tipo, dadosLabels, dadosGrafico, labelSolo, titulo, al
                     backgroundColor: 'rgba(0, 0, 0, 0.8)', // Fundo do tooltip
                     titleColor: '#E0E0E0', // Cor da fonte do título do tooltip
                     callbacks: {
-                         title: function (context) {
+                         title: function (context: TooltipItem<"line">[] | TooltipItem<"bar">[]) {
                               // Customize o título do tooltip aqui
                               const index = context[0].dataIndex;
                               return formataDataLabelTop(dadosLabels[index], 'tolltip');
                          },
-                         label: function (context) {
+                         label: function (context: TooltipItem<"line"> | TooltipItem<"bar">) {
                               // Customize o rótulo do tooltip aqui
                               const label = context.dataset.label || '';
                               const value = context.raw;
@@ -145,7 +148,7 @@ export const Grafico = ({ tipo, dadosLabels, dadosGrafico, labelSolo, titulo, al
                     {alt && <p>{alt}</p>}
                </div>
 
-               {tipo === 'bar' ? <Bar ref={chartRef} data={data} options={options} /> : <Line ref={chartRef} data={data} options={options} />}
+               {tipo === 'bar' ? <Bar ref={chartRefBar} data={data} options={options} /> : <Line ref={chartRefLine} data={data} options={options} />}
           </div>
      )
 }

@@ -64,7 +64,7 @@ export const MinerPage = ({ loading, apiData, request }: iMinerPageProps) => {
 
                     <div className="w-full flex flex-col gap-2 p-2">
                         {apiData.dadosMinerador.map((elt, i) => {
-                            const event = elt.event as any
+                            const event = elt.event
 
                             return (
                                 <div key={elt.event_id} className={`flex justify-between gap-2 w-full ${i % 2 == 0 ? "bg-transparent" : "bg-[#002534]"}`}>

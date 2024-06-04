@@ -28,7 +28,12 @@ export interface iMinerData {
         event_id: string
         event_type: string
         miner: string
-        event: object
+        event: {
+            event_type: string
+            height: string
+            difficulty: string
+            timestamp: string
+        }
     }[]
     ganhosHora: iGraficoResponse
     ganhosDiarios: iGraficoResponse
